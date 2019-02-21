@@ -14,3 +14,7 @@
 Route::get('/', function () {
     return view('welcome');
 });
+//商家分类
+Route::resource('shopCategories','ShopCategoryController');
+//商家
+Route::resource('shops','ShopController');
