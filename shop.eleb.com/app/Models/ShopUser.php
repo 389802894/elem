@@ -8,4 +8,5 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class ShopUser extends Authenticatable
 {
     //
+    protected $fillable=['password'];
 }

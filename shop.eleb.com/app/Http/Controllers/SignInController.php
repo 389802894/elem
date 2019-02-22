@@ -72,6 +72,7 @@ class SignInController extends Controller
 //                $shopUser = auth()->user();
 //                $shopUser::update(['password'=>$request->new_password]);
             auth()->user()->update(['password' => Hash::make($request->new_password)]);
+            Auth::logout();
             echo "<script>alert('修改密码成功');location.href='shopUsers/create';</script>";
         }
     }
