@@ -9,4 +9,7 @@ class Shop extends Model
     //
     protected $fillable=['shop_category_id','shop_name','shop_img','shop_rating','brand','on_time','fengniao','bao',
         'piao','zhun','start_send','send_cost','notice','discount','status'];
+    public function shopCategory(){   //shop.shop_category_id ===shopCategory.id
+        return $this->belongsTo(ShopCategory::class,'shop_category_id');
+    }
 }

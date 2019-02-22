@@ -17,6 +17,7 @@
                     <th>评分</th>
                     <th>起送金额</th>
                     <th>配送费</th>
+                    <th>状态</th>
                     <th>操作</th>
                 </tr>
                 </thead>
@@ -24,7 +25,7 @@
                 @foreach($shops as $shop)
                     <tr>
                         <td>{{$shop->id}}</td>
-                        <td>{{$shop->shop_category_id}}</td>
+                        <td>{{$shop->shopCategory?$shop->shopCategory->name:''}}</td>
                         <td>{{$shop->shop_name}}</td>
                         @if($shop->shop_img)
                             <td><img style="width: 100px; height: 70px" src="{{\Illuminate\Support\Facades\Storage::url($shop->shop_img)}}"> </td>
@@ -35,11 +36,26 @@
                         <td>{{$shop->start_send}}</td>
                         <td>{{$shop->send_cost}}</td>
                         <td>
+                            @if($shop->status==1)
+                                正常
+                                @elseif($shop->status==0)
+                                <a href="">待审核</a>
+                            @elseif($shop->status==-1)
+                                禁用
+                                @endif
+
+                        </td>
+                        <td>
                             <a  href="{{route('shops.edit',[$shop])}}">修改</a> /
                             <form style="display: inline" method="post" action="{{route('shops.destroy',[$shop])}}">
                                 <button type="submit" class="btn btn-danger"  >删除</button>
                                 {{csrf_field()}}
                                 {{method_field('delete')}}
+                            </form>/
+                            <form style="display: inline" method="post" action="{{route('reset',[$shop])}}">
+                                <button type="submit" class="btn btn-primary"  >重置密码</button>
+                                {{csrf_field()}}
+                                {{method_field('patch')}}
                             </form>
                         </td>
                     </tr>
@@ -47,7 +63,6 @@
                 </tbody>
             </table>
             {{$shops->appends(['keyword'=>$keyword])->links()}}
-
         </div>
     </div>
 @stop

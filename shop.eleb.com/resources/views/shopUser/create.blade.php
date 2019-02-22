@@ -2,9 +2,9 @@
 @section('contents')
     <div class="mainbox">
         <div class="note">
-            <h4>添加分类</h4>
+            <h4></h4>
             @include('layout._error')
-            <form action="{{route('shops.store')}}" method="post" enctype="multipart/form-data">
+            <form action="{{route('shopUsers.store')}}" method="post" enctype="multipart/form-data">
                 <table class="news_form">
                     <tr>
                         <td></td>
@@ -14,8 +14,8 @@
                         <td>店铺分类：</td>
                         <td><select class="inbox" name="shop_category_id">
                                 @foreach($shopCategories as $shopCategory)
-                                <option value="{{$shopCategory->id}}">{{$shopCategory->name}}</option>
-                                    @endforeach
+                                    <option value="{{$shopCategory->id}}">{{$shopCategory->name}}</option>
+                                @endforeach
                             </select>
 
                         </td>
@@ -111,4 +111,4 @@
             </form>
         </div>
     </div>
-    @stop
+@stop

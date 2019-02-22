@@ -3,6 +3,7 @@
     <div class="mainbox">
         <div class="note">
             <h4>修改分类</h4>
+            @include('layout._error')
             <form action="{{route('shopCategories.update',[$shopCategory])}}" method="post"
                   enctype="multipart/form-data">
                 <table class="news_form">

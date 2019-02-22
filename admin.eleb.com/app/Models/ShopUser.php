@@ -7,4 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 class ShopUser extends Model
 {
     //
+    protected $fillable=['name','email','password','status','shop_id'];
 }

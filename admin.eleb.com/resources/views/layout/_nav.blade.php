@@ -1,5 +1,4 @@
 <nav>
-    <h3>欢迎您来到管理后台</h3>
     <style>
         img {
             margin: 15px;
@@ -10,17 +9,18 @@
         }
 
     </style>
-    <?php
-    @session_start();
-    if(isset($_SESSION['thumb_photo'])): ?>
-
-    <p><img style="width: 100px" src="./Uploads/<?=$_SESSION['thumb_photo']?>" alt=""><br/>
-        登陆名：<strong><?= $_SESSION['username']?></strong><br/>身　份：<strong>管理员</strong></p>
-    <?php elseif(!isset($_SESSION['thumb_photo'])):?>
-    <p><img style="width: 100px" src="" alt=""><br/>
-        登陆名：<strong>匿名</strong><br/>身　份：<strong>管理员</strong></p>
-    <?php endif;?>
+    @guest
+    <p style="margin-top: 20px; padding-left: 20px;"><a href="{{route('login')}}"><strong>请登录...</strong></a></p>
+    @endguest
+    @auth
+    <p style="margin-top: 20px; padding-left: 20px;">管理员:<strong>{{ auth()->user()->name }}</strong></p>
+    @endauth
     <dl>
+        <dt><span class="icon board"></span>管理员管理</dt>
+        <dd>
+            <a href="{{route('admins.create')}}">-&emsp;添加管理员</a>
+            <a href="">-&emsp;管理员列表</a>
+        </dd>
         <dt><span class="icon board"></span>分类管理</dt>
         <dd>
             <a href="{{route('shopCategories.create')}}">-&emsp;添加分类</a>
@@ -31,10 +31,10 @@
             <a href="{{route('shops.index')}}">-&emsp;商家列表</a>
             <a href="{{route('shops.create')}}">-&emsp;添加商家</a>
         </dd>
-        <dt><span class="icon pro"></span>部门管理</dt>
+        <dt><span class="icon pro"></span>商家账户管理</dt>
         <dd>
-            <a href="index.php?p=Admin&c=Group&a=add">-&emsp;添加部门</a>
-            <a href="index.php?p=Admin&c=Group&a=index">-&emsp;部门列表</a>
+            <a href="{{route('shopUsers.index')}}">-&emsp;商家账户列表</a>
+
         </dd>
         <dt><span class="icon book"></span>消费记录</dt>
         <dd>

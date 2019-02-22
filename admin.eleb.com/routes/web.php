@@ -18,3 +18,15 @@ Route::get('/', function () {
 Route::resource('shopCategories','ShopCategoryController');
 //商家
 Route::resource('shops','ShopController');
+//商家账户资源路由
+Route::resource('shopUsers','ShopUserController');
+//商家重置密码
+Route::patch('shopUsers/{shopUser}/reset','ShopUserController@reset')->name('shopUsers.reset');
+
+//管理员
+Route::resource('admins','AdminController');
+//管理员登录
+Route::get('login','SignInController@create')->name('login');
+Route::post('login','SignInController@store')->name('login');
+//注销
+Route::get('destroy','SignInController@destroy')->name('destroy');
