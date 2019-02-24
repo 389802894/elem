@@ -20,8 +20,17 @@
         <dt><span class="icon board"></span>商家</dt>
         <dd>
             <a href="{{route('shopUsers.create')}}">-&emsp;商家注册</a>
-            <a href="">-&emsp;分类列表</a>
+            <a href="">-&emsp;菜品列表</a>
         </dd>
-
+        <dt><span class="icon board"></span>菜品分类管理</dt>
+        <dd>
+            <a href="{{route('menuCategories.index')}}">-&emsp;菜品分类列表</a>
+            <a href="{{route('menuCategories.create')}}">-&emsp;添加菜品分类</a>
+        </dd>
+        <dt><span class="icon board"></span>菜品管理</dt>
+        <dd>
+            <a href="{{route('menus.index')}}">-&emsp;菜品列表</a>
+            <a href="{{route('menus.create')}}">-&emsp;添加菜品</a>
+        </dd>
     </dl>
 </nav>

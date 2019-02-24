@@ -70,31 +70,39 @@ class ShopController extends Controller
             $path = '';
         }
         //保存店铺数据
-        $shop = new Shop();
-        $shop->shop_name = $request->shop_name;
-        $shop->shop_category_id = $request->shop_category_id;
-        $shop->shop_img = $path;
-        $shop->shop_rating = 4.5;
-        $shop->brand = $request->brand;
-        $shop->on_time = $request->on_time;
-        $shop->fengniao = $request->fengniao;
-        $shop->bao = $request->bao;
-        $shop->piao = $request->piao;
-        $shop->zhun = $request->zhun;
-        $shop->start_send = $request->start_send;
-        $shop->send_cost = $request->send_cost;
-        $shop->notice = $request->notice;
-        $shop->discount = $request->discount;
-        $shop->status = 1;
-        $shop->save();
-        //保存商家信息
-        $shopUser = new ShopUser();
-        $shopUser->name = $request->name;
-        $shopUser->email = $request->email;
-        $shopUser->password = Hash::make($request->password);
-        $shopUser->status = 1;
-        $shopUser->shop_id = $shop->id;
-        $shopUser->save();
+        DB::beginTransaction();
+        try {
+            $shop = new Shop();
+            $shop->shop_name = $request->shop_name;
+            $shop->shop_category_id = $request->shop_category_id;
+            $shop->shop_img = $path;
+            $shop->shop_rating = 4.5;
+            $shop->brand = $request->brand;
+            $shop->on_time = $request->on_time;
+            $shop->fengniao = $request->fengniao;
+            $shop->bao = $request->bao;
+            $shop->piao = $request->piao;
+            $shop->zhun = $request->zhun;
+            $shop->start_send = $request->start_send;
+            $shop->send_cost = $request->send_cost;
+            $shop->notice = $request->notice;
+            $shop->discount = $request->discount;
+            $shop->status = 1;
+            $shop->save();
+            //保存商家信息
+            $shopUser = new ShopUser();
+            $shopUser->name = $request->name;
+            $shopUser->email = $request->email;
+            $shopUser->password = Hash::make($request->password);
+            $shopUser->status = 1;
+            $shopUser->shop_id = $shop->id;
+            $shopUser->save();
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+        }
+
+
 
         return redirect()->route('shops.index')->with('success', '添加商家成功');
     }
@@ -168,8 +176,8 @@ class ShopController extends Controller
     public function reset(Shop $shop)
     {
         $shopUsers = ShopUser::all();
-        foreach($shopUsers as $shopUser){
-            if ($shopUsers->shop_id==$shop->id){
+        foreach ($shopUsers as $shopUser) {
+            if ($shopUsers->shop_id == $shop->id) {
                 $shopUsers->update();
             }
         }

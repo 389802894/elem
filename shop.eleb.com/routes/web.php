@@ -23,4 +23,10 @@ Route::post('login','SignInController@store')->name('login');
 Route::get('destroy','SignInController@destroy')->name('destroy');
 //修改密码
 Route::get('modify','SignInController@modify')->name('modify');
-Route::post('update','SignInController@update')->name('update');
+Route::patch('update','SignInController@update')->name('update');
+//菜品分类资源路由
+Route::resource('menuCategories','MenuCategoryController');
+//菜品资源路由
+Route::resource('menus','MenuController');
+//搜索
+Route::get('search','MenuCategoryController@search')->name('search');

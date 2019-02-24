@@ -64,13 +64,17 @@ class SignInController extends Controller
     //保存新密码
     public function update(Request $request)
     {
+        $this->validate($request,
+            ['old_password'=>'required',
+                'new_password'=>'required|confirmed',
+                'new_password_confirmation'=>'required']);
         $old_password = $request->old_password;
 //        dd(auth()->user());
-        if (!Hash::check($old_password, auth()->user()->password)) {
+        if (//判断原密码是否正确
+            !Hash::check($old_password, auth()->user()->password)) {
             echo "<script>alert('原密码不正确');location.href='modify';</script>";
         } else {
-//                $shopUser = auth()->user();
-//                $shopUser::update(['password'=>$request->new_password]);
+            //修改密码,并注销用户
             auth()->user()->update(['password' => Hash::make($request->new_password)]);
             Auth::logout();
             echo "<script>alert('修改密码成功');location.href='shopUsers/create';</script>";

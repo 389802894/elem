@@ -12,11 +12,11 @@
                     </tr>
                     <tr>
                         <td>请输入新密码：</td>
-                        <td><input type="password" name="new_password1" class="inbox" value=""/></td>
+                        <td><input type="password" name="new_password" class="inbox" value=""/></td>
                     </tr>
                     <tr>
                         <td>请确认密码：</td>
-                        <td><input type="password" name="new_password" class="inbox" value=""/></td>
+                        <td><input type="password" name="new_password_confirmation" class="inbox" value=""/></td>
                     </tr>
                     <tr>
                         <td></td>
@@ -24,6 +24,7 @@
                     </tr>
                 </table>
                 {{csrf_field()}}
+                {{method_field('patch')}}
             </form>
         </div>
     </div>

@@ -12,7 +12,8 @@ class SignInController extends Controller
         //只能游客才能访问
         $this->middleware('guest', [
             'only' => ['create']
-        ]);
+        ]
+        );
     }
 
     //登录界面
