@@ -30,3 +30,5 @@ Route::resource('menuCategories','MenuCategoryController');
 Route::resource('menus','MenuController');
 //搜索
 Route::get('search','MenuCategoryController@search')->name('search');
+//平台活动
+Route::resource('activities','ActivityController');

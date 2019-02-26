@@ -20,7 +20,7 @@
         <dt><span class="icon board"></span>商家</dt>
         <dd>
             <a href="{{route('shopUsers.create')}}">-&emsp;商家注册</a>
-            <a href="">-&emsp;菜品列表</a>
+            <a href="{{route('activities.index')}}">-&emsp;活动列表</a>
         </dd>
         <dt><span class="icon board"></span>菜品分类管理</dt>
         <dd>

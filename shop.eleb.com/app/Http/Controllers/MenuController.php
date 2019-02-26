@@ -10,6 +10,18 @@ use Illuminate\Support\Facades\Storage;
 
 class MenuController extends Controller
 {
+    public function __construct()
+    {
+        //制定当前控制器使用的中间件
+        // auth表示必须通过登录认证
+        $this->middleware('auth'
+            //配置  只对哪些方法生效
+            //'only'=>[],
+            //不对哪些方法生效
+
+        );
+    }
+
     //菜品列表
     public function index()
     {

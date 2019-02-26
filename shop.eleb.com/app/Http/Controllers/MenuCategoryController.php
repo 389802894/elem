@@ -11,6 +11,17 @@ use Illuminate\Support\Facades\DB;
 //菜品分类控制器
 class MenuCategoryController extends Controller
 {
+    public function __construct()
+    {
+        //制定当前控制器使用的中间件
+        // auth表示必须通过登录认证
+        $this->middleware('auth'
+        //配置  只对哪些方法生效
+        //'only'=>[],
+        //不对哪些方法生效
+
+        );
+    }
     //菜品分类列表
     public function index()
     {

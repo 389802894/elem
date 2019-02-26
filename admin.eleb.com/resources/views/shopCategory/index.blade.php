@@ -22,7 +22,7 @@
                     <tr>
                         <td>{{$shopCategory->id}}</td>
                         @if($shopCategory->img)
-                        <td><img style="width: 100px; height: 70px" src="{{\Illuminate\Support\Facades\Storage::url($shopCategory->img)}}"> </td>
+                        <td><img style="width: 100px; height: 70px" src="{{$shopCategory->img}}"> </td>
                         @else
                             <td>无图</td>
                         @endif
@@ -41,7 +41,6 @@
                 </tbody>
             </table>
             {{$shopCategories->appends(['keyword'=>$keyword])->links()}}
-
         </div>
     </div>
 @stop

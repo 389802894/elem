@@ -15,7 +15,7 @@
                         <td>分类图片：</td>
                         @if($shopCategory->img)
                             <td><img style="width: 100px;height: 70px;"
-                                     src="{{\Illuminate\Support\Facades\Storage::url($shopCategory->img)}}"><input
+                                     src="{{$shopCategory->img}}"><input
                                         type="file" name="img" class="inbox"/></td>
                         @else
                             <td><input type="file" name="img" class="inbox"/></td>

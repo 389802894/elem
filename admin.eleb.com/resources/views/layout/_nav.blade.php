@@ -36,9 +36,10 @@
             <a href="{{route('shopUsers.index')}}">-&emsp;商家账户列表</a>
 
         </dd>
-        <dt><span class="icon book"></span>消费记录</dt>
+        <dt><span class="icon book"></span>活动管理</dt>
         <dd>
-            <a href="index.php?p=Admin&c=Histories&a=index">-&emsp;消费记录</a>
+            <a href="{{route('activities.index')}}">-&emsp;活动列表</a>
+            <a href="{{route('activities.create')}}">-&emsp;添加活动</a>
         </dd>
         <dt><span class="icon flink"></span>套餐管理</dt>
         <dd>

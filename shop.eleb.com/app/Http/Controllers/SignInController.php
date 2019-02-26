@@ -42,7 +42,7 @@ class SignInController extends Controller
             'password' => $request->password],
             $request->has('rememberMe'))
         ) {
-            return view('menu.index');
+            return redirect()->route('menus.index');
         } else {
             return back()->with('danger', '账号或密码错误');
         }

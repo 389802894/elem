@@ -30,3 +30,7 @@ Route::get('login','SignInController@create')->name('login');
 Route::post('login','SignInController@store')->name('login');
 //注销
 Route::get('destroy','SignInController@destroy')->name('destroy');
+//活动资源路由
+Route::resource('activities','ActivityController');
+//文件上传
+Route::post('/upload','ShopCategoryController@upload')->name('upload');
