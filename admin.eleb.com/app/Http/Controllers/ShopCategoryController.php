@@ -58,14 +58,13 @@ class ShopCategoryController extends Controller
     {
         //数据验证
         $this->validate($request,
-            ['name' => 'required', 'img' => 'image'],
+            ['name' => 'required'],
             ['name.required' => '分类名不能为空',
-                'img.image' => '图片格式错误'
             ]);
         //获取图片,并保存在服务器
-        $img = $request->file('img');
+        $img = $request->img;
         if ($img) {
-            $path = $img->store('public/shopCategory');
+            $path = $img;
             $shopCategory->img = $path;
         }
         $shopCategory->name = $request->name;

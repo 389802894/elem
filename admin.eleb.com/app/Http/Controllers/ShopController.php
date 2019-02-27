@@ -18,7 +18,7 @@ class ShopController extends Controller
     {
         $keyword = $request->keyword;
         if ($keyword) {
-            $shops = Shop::where('shop_name', 'like', '%$keyword%')->paginate(5);
+            $shops = Shop::where('shop_name', 'like', "%$keyword%")->paginate(5);
         } else {
             $shops = Shop::paginate(5);
         }
@@ -39,7 +39,7 @@ class ShopController extends Controller
         //数据验证
         $this->validate($request,
             ['shop_name' => 'required',
-                'shop_img' => 'image',
+//                'shop_img' => 'image',
                 'brand' => 'required',
                 'on_time' => 'required',
                 'fengniao' => 'required',
@@ -53,7 +53,7 @@ class ShopController extends Controller
                 'email' => 'required',
                 'password' => 'required'],
             ['shop_name.required' => '店铺名称不能为空',
-                'shop_img.image' => '图片格式有错',
+//                'shop_img.image' => '图片格式有错',
                 'start_send.required' => '起送金额不能为空',
                 'send_cost.required' => '配送费不能为空',
                 'notice,required' => '公告不能为空',
@@ -62,20 +62,20 @@ class ShopController extends Controller
                 'email.required' => '邮箱不能为空',
                 'password.required' => '密码不能为空'
             ]);
-        //获取图片,保存到服务器
-        $img = $request->file('shop_img');
-        if ($img) {
-            $path = $img->store('public/shop');
-        } else {
-            $path = '';
-        }
+//        //获取图片,保存到服务器
+//        $img = $request->file('shop_img');
+//        if ($img) {
+//            $path = $img->store('public/shop');
+//        } else {
+//            $path = '';
+//        }
         //保存店铺数据
         DB::beginTransaction();
         try {
             $shop = new Shop();
             $shop->shop_name = $request->shop_name;
             $shop->shop_category_id = $request->shop_category_id;
-            $shop->shop_img = $path;
+            $shop->shop_img = $request->shop_img;
             $shop->shop_rating = 4.5;
             $shop->brand = $request->brand;
             $shop->on_time = $request->on_time;
@@ -183,5 +183,13 @@ class ShopController extends Controller
         }
         return redirect()->route('shops.index')->with('success', '密码重置成功为888888');
     }
+    //接受文件上传
+    public function upload(Request $request)
+    {
+        $img = $request->file('file');
+        $path = Storage::url($img->store('public/shop'));
+        return ['path'=>$path];
+    }
+
 
 }

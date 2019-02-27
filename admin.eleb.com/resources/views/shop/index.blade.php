@@ -28,7 +28,7 @@
                         <td>{{$shop->shopCategory?$shop->shopCategory->name:''}}</td>
                         <td>{{$shop->shop_name}}</td>
                         @if($shop->shop_img)
-                            <td><img style="width: 100px; height: 70px" src="{{\Illuminate\Support\Facades\Storage::url($shop->shop_img)}}"> </td>
+                            <td><img style="width: 100px; height: 70px" src="{{$shop->shop_img}}"> </td>
                         @else
                             <td>无图</td>
                         @endif
@@ -52,7 +52,7 @@
                                 {{csrf_field()}}
                                 {{method_field('delete')}}
                             </form>/
-                            <form style="display: inline" method="post" action="{{route('reset',[$shop])}}">
+                            <form style="display: inline" method="post" action="{{route('shopUsers.reset',[$shop])}}">
                                 <button type="submit" class="btn btn-primary"  >重置密码</button>
                                 {{csrf_field()}}
                                 {{method_field('patch')}}
@@ -62,7 +62,7 @@
                 @endforeach
                 </tbody>
             </table>
-            {{$shops->appends(['keyword'=>$keyword])->links()}}
+            {{$shops->links()}}
         </div>
     </div>
 @stop

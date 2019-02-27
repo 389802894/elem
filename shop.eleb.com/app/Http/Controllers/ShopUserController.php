@@ -81,6 +81,6 @@ class ShopUserController extends Controller
         $shopUser->shop_id = $shop->id;
         $shopUser->save();
 
-        return redirect()->route('shops.create')->with('success', '商家注册成功');
+        return redirect()->route('activities.index')->with('success', '商家注册成功');
     }
 }

@@ -23,7 +23,7 @@
                             </script>
 
                             <!-- 编辑器容器 -->
-                            <script id="container" name="content" type="text/plain">{{$activity->content}}</script>
+                            <script id="container" name="content" type="text/plain">{!!$activity->content!!}</script>
 
 
                         </td>

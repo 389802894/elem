@@ -19,7 +19,7 @@
         <dt><span class="icon board"></span>管理员管理</dt>
         <dd>
             <a href="{{route('admins.create')}}">-&emsp;添加管理员</a>
-            <a href="">-&emsp;管理员列表</a>
+            <a href="{{route('admins.index')}}">-&emsp;管理员列表</a>
         </dd>
         <dt><span class="icon board"></span>分类管理</dt>
         <dd>
@@ -51,32 +51,7 @@
             <a href="index.php?p=Admin&c=Voucher&a=add">-&emsp;添加代金券</a>
             <a href="index.php?p=Admin&c=Voucher&a=index">-&emsp;代金券列表</a>
         </dd>
-        <dt><span class="icon admin"></span>预约管理</dt>
-        <dd>
-            <a href="index.php?p=Admin&c=Order&a=index">-&emsp;预约列表</a>
-            <!--<a href="index.php?p=Admin&c=Voucher&a=index">-&emsp;代金券列表</a>-->
-        </dd>
-        <dt><span class="icon admin"></span>活动管理</dt>
-        <dd>
-            <a href="index.php?p=Admin&c=Activity&a=add">-&emsp;添加活动</a>
-            <a href="index.php?p=Admin&c=Activity&a=index">-&emsp;活动列表</a>
-        </dd>
-        <dt><span class="icon admin"></span>排行榜</dt>
-        <dd>
-            <a href="index.php?p=Admin&c=Ranking&a=add">-&emsp;充值排行榜</a>
-            <a href="index.php?p=Admin&c=Ranking&a=service">-&emsp;消费排行榜</a>
-            <a href="index.php?p=Admin&c=Ranking&a=Admin">-&emsp;服务排行榜</a>
-        </dd>
-        <dt><span class="icon admin"></span>充值规则</dt>
-        <dd>
-            <a href="index.php?p=Admin&c=Rules&a=add">-&emsp;添加充值规则</a>
-            <a href="index.php?p=Admin&c=Rules&a=index">-&emsp;充值规则列表</a>
-        </dd>
-        <dt><span class="icon admin"></span>VIP等级</dt>
-        <dd>
-            <a href="index.php?p=Admin&c=Vip&a=add">-&emsp;添加VIP等级</a>
-            <a href="index.php?p=Admin&c=Vip&a=index">-&emsp;VIP等级列表</a>
-        </dd>
+
 
     </dl>
 </nav>

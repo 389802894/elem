@@ -164,7 +164,8 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Overtrue\LaravelUEditor\UEditorServiceProvider::class,
-        Jacobcyl\AliOSS\AliOssServiceProvider::class,
+        Jacobcyl\AliOSS\AliOssServiceProvider::class,//阿里云上传oss配置
+//        Freyo\Flysystem\QcloudCOSv5\ServiceProvider::class,//腾讯云cos配置
 
         /*
          * Package Service Providers...

@@ -7,10 +7,22 @@ use Illuminate\Http\Request;
 
 class ActivityController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $activities = Activity::all();
-        return view('activity.index', compact('activities'));
+
+        $keyword = $request->keyword;
+        $wheres = [];
+        if ($keyword){
+            if ($keyword==1) {$wheres[]=['end_time','>',time()];
+                $wheres[]=['start_time','<',time()];
+            }
+            if ($keyword==2) $wheres[]=['start_time','>',time()];
+            if ($keyword==-1) $wheres[]=['end_time','<',time()];
+            $activities = Activity::where($wheres)->get();
+        }else{
+            $activities = Activity::all();
+        }
+        return view('activity.index', compact('activities','keyword'));
     }
 
     public function create()

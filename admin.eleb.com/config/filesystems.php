@@ -63,7 +63,7 @@ return [
             'bucket' => env('AWS_BUCKET'),
         ],
 
-        //阿里云
+        //阿里云oss配置
         'oss' => [
             'driver'        => 'oss',
             'access_id'     => 'LTAIJAICMRHYxsML',
@@ -77,6 +77,21 @@ return [
             'debug'         => false,//<true|false>
         ],
 
+//        //腾讯云cos配置
+//        'cosv5' => [
+//            'driver' => 'cosv5',
+////            'region'          => env('COSV5_REGION', 'ap-guangzhou'),
+//            'credentials'     => [
+//                'appId'     => env('1258541846'),
+//                'secretId'  => env('AKID98XqwzZkU4TiCZvFOSOBnCWZSDrOlutm'),
+//                'secretKey' => env('wvnW9e7Tjx5OWY2Wt7JnAMPMCveIrKcR'),
+//            ],
+//            'timeout'         => env('COSV5_TIMEOUT', 60),
+//            'connect_timeout' => env('COSV5_CONNECT_TIMEOUT', 60),
+//            'bucket'          => env('cm-eleb-1258541846'),
+////            'cdn'             => env('COSV5_CDN'),
+////            'scheme'          => env('COSV5_SCHEME', 'https'),
+//        ],
 
 
     ],

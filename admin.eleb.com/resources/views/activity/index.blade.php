@@ -4,7 +4,12 @@
         <div class="note">
             <h4>活动列表......</h4>
             <form  method="get" action="{{route('activities.index')}}" class="search_form">
-                <input type="text" name="keyword" placeholder="请输入要搜索的关键词"/>
+                {{--<input type="text" name="keyword" placeholder="请输入要搜索的关键词"/>--}}
+                <select name="keyword" style="width: 500px;height: 40px">
+                    <option value="1">开始</option>
+                    <option value="2">未开始</option>
+                    <option value="-1">已经结束</option>
+                </select>
                 <input type="submit" value="搜索"/>
             </form>
             <table class="news_list">
@@ -23,7 +28,7 @@
                     <tr>
                         <td>{{$activity->id}}</td>
                         <td>{{$activity->title}}</td>
-                        <td>{{$activity->content}}</td>
+                        <td>{!! $activity->content !!}</td>
                         <td>{{date('Y-m-d',$activity->start_time)}}</td>
                         <td>{{date('Y-m-d',$activity->end_time)}}</td>
                         <td>

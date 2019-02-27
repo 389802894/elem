@@ -17,11 +17,8 @@
                     <tr>
                         <td>分类图片：</td>
                         <td>
-                            {{--<input type="file" name="img" class="inbox">--}}
                             <input type="hidden" name="img" id="img_val">
                             <div id="uploader-demo">
-                                <!--用来存放item-->
-                                {{--<div id="fileList" class="uploader-list"></div>--}}
                                 <div id="filePicker">选择图片</div>
                                 <img  src="" id="img" />
                             </div>
