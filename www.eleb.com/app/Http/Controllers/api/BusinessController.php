@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\Address;
+use App\Models\Cart;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redis;
 use Qcloud\Sms\SmsSingleSender;
@@ -13,6 +15,7 @@ use App\Models\ShopCategory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Validator;
 use Illuminate\Support\Facades\DB;
 
 class BusinessController extends Controller
@@ -36,7 +39,9 @@ class BusinessController extends Controller
         $shop = Shop::find($id);
         $menu_categories = MenuCategory::where('shop_id', '=', $id)->get();
         foreach ($menu_categories as $menu_category) {
-            $menu_category['goods_list'] = Menu::where('category_id', '=', $menu_category->id)->get();
+            $menu_category['goods_list'] = Menu::select('id as goods_id', 'goods_name', 'rating', 'goods_price',
+                'description', 'month_sales', 'rating_count', 'tips', 'satisfy_count', 'satisfy_rate',
+                'goods_img')->where('category_id', '=', $menu_category->id)->get();
         }
         $shop['commodity'] = $menu_categories;
         return $shop;
@@ -77,6 +82,8 @@ class BusinessController extends Controller
                 'password' => 'required|min:4',
                 'tel' => 'required|min:11|max:11|unique:members'],
             ['username.required' => '用户名不能为空',
+                'username.unique' => '用户名存在',
+                'password.unique' => '手机号存在',
                 'password,required' => '密码不能为空',
                 'password.min' => '密码不小于4个字符',
                 'tel,min' => '手机号位数错误',
@@ -116,5 +123,106 @@ class BusinessController extends Controller
         return json_encode(["status" => "false", "message" => "账号或密码错误"]);
     }
 
+    //收货地址列表
+    public function addressList()
+    {
+        $addresses = Address::select('id', 'user_id', 'province as provence', 'city', 'county as area',
+            'tel', 'address as detail_address')->get();
+        return $addresses;
+    }
 
+    //添加收货地址
+    public function addAddress(Request $request)
+    {
+        $this->validate($request,
+            ['name' => 'required',
+                'tel' => 'required|numeric',
+                'provence' => 'required',
+                'city' => 'required',
+                'area' => 'required',
+                'detail_address' => 'required']);
+        $address = new Address();
+        $address->user_id = Auth::user()->id;
+        $address->name = $request->name;
+        $address->tel = $request->tel;
+        $address->province = $request->provence;
+        $address->city = $request->city;
+        $address->county = $request->area;
+        $address->address = $request->detail_address;
+        $address->is_default = 0;
+        $address->save();
+        return json_encode(["status" => "true",
+            "message" => "添加成功"]);
+    }
+
+    //修改地址回显
+    public function address(Request $request)
+    {
+        $id = $request->id;
+        $addresses = Address::select("id", "province as provence", "city", "county as area",
+            "address as detail_address", "name", "tel")->where('id', '=', $id)->get();
+        return $addresses[0];
+    }
+
+    //保存修改
+    public function editAddress(Request $request)
+    {
+        $this->validate($request,
+            ['name' => 'required',
+                'tel' => 'required|numeric',
+                'provence' => 'required',
+                'city' => 'required',
+                'area' => 'required',
+                'detail_address' => 'required']);
+        $address = Address::where('id', $request->id)->first();
+        $address->name = $request->name;
+        $address->tel = $request->tel;
+        $address->province = $request->provence;
+        $address->city = $request->city;
+        $address->county = $request->area;
+        $address->address = $request->detail_address;
+        $address->save();
+
+        return json_encode([
+            "status" => "true",
+            "message" => "修改成功"
+        ]);
+    }
+
+    //保存购物车
+    public function addCart(Request $request)
+    {
+        $goods_lists = $request->goodsList;
+        $goods_counts = $request->goodsCount;
+//        var_dump($goods_list,$goods_count);
+        foreach ($goods_lists as $k => $goods_list) {
+            $carts = new Cart();
+            $carts->user_id = Auth::user()->id;
+            $carts->goods_id = $goods_list;
+            $carts->amount = $goods_counts[$k];
+            $carts->save();
+        }
+        return json_encode([
+            "status" => "true",
+            "message" => "添加成功"
+        ]);
+    }
+
+
+    //获取购物车
+    public function cart()
+    {
+        //当前用户购物车所有商品
+        $goods_list = Cart::where('user_id', Auth::user()->id)->get();
+        $totalCost = 0;  //商品总价
+        foreach ($goods_list as $cart) {
+            $goods = Menu::where('id', $cart->goods_id)->first();
+            $cart['goods_name'] = $goods->goods_name;
+            $cart['goods_img'] = $goods->goods_img;
+            $cart['goods_price'] = $goods->goods_price;
+            $totalCost += $cart->amount * $goods->goods_price;
+        }
+        return ["goods_list" => $goods_list, "totalCost" => $totalCost];
+
+    }
 }

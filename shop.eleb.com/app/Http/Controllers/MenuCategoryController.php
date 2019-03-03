@@ -44,7 +44,7 @@ class MenuCategoryController extends Controller
                 'is_selected' => 'required']);
         MenuCategory::create(
             ['name' => $request->name,
-                'type_accumulation' => 'a',
+                'type_accumulation' => rand(1,10000),
                 'shop_id' => $request->shop_id,
                 'description' => $request->description,
                 'is_selected' => $request->is_selected]

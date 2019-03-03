@@ -13,3 +13,15 @@ Route::post('/api/regist','api\BusinessController@regist');
 Route::post('/api/loginCheck','api\BusinessController@loginCheck');
 //短信验证码
 Route::get('/api/sms','api\BusinessController@sms');
+//收货地址列表
+Route::get('/api/address_list','api\BusinessController@addressList');
+//添加收货地址
+Route::post('/api/add_address','api\BusinessController@addAddress');
+//修改回显收货地址
+Route::get('/api/address','api\BusinessController@address');
+//保存修改收货地址
+Route::post('/api/edit_address','api\BusinessController@editAddress');
+//保存购物车
+Route::post('/api/add_cart','api\BusinessController@addCart');
+//获取购物车
+Route::get('/api/cart','api\BusinessController@cart');
