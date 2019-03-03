@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\Address;
 use App\Models\Cart;
+use App\Models\Order;
+use App\Models\OrderDetail;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redis;
 use Qcloud\Sms\SmsSingleSender;
@@ -127,7 +129,7 @@ class BusinessController extends Controller
     public function addressList()
     {
         $addresses = Address::select('id', 'user_id', 'province as provence', 'city', 'county as area',
-            'tel', 'address as detail_address')->get();
+            'tel', 'address as detail_address')->where('user_id', Auth::user()->id)->get();
         return $addresses;
     }
 
@@ -224,5 +226,138 @@ class BusinessController extends Controller
         }
         return ["goods_list" => $goods_list, "totalCost" => $totalCost];
 
+    }
+
+    //添加订单
+    public function addOrder(Request $request)
+    {
+
+        DB::beginTransaction();
+        try {
+            $address_id = $request->address_id;
+
+            //订单表orders
+            $orders = new Order();
+            $orders['user_id'] = Auth::user()->id; // 用户id
+            //查询购物车表中的商品id,根据商品id查出商家id
+            $goods_id = Cart::select('goods_id')->first();
+            $shop_id = Menu::select('shop_id')->where('id', $goods_id->goods_id)->first();
+            $orders['shop_id'] = $shop_id->shop_id; // 商家id
+            $orders['sn'] = time(); // 订单编号
+            //用户信息
+            $address = Address::where('id', $address_id)->first();
+            $orders['province'] = $address->province;
+            $orders['city'] = $address->city;
+            $orders['county'] = $address->county;
+            $orders['address'] = $address->address;
+            $orders['tel'] = $address->tel;
+            $orders['name'] = Auth::user()->username;
+            //总价
+            $goods_list = Cart::where('user_id', Auth::user()->id)->get();
+            $orders['total'] = 0;  //商品总价
+            foreach ($goods_list as $cart) {
+                $goods = Menu::where('id', $cart->goods_id)->first();
+                $orders['total'] += $cart->amount * $goods->goods_price;
+            }
+            $orders['status'] = 1;  //状态(-1:已取消,0:待支付,1:待发货,2:待确认,3:完成)
+            $orders['order_birth_time'] = date('Y-m-d H:i:s', time());
+            //随机字符串
+            $str = "QWERTYUIOPASDFGHJKLZXCVBNM1234567890";
+            $a = substr(str_shuffle($str), mt_rand(0, strlen($str) - 11), 10);
+            $orders['out_trade_no'] = $a;  //第三方交易号(微信支付需要)
+            $orders->save();
+            //订单商品表order_details
+            $order_details = new OrderDetail();
+            $carts = Cart::all();  //购物车总数据
+            foreach ($carts as $cart) {
+                $order_details['order_id'] = Order::select('id')->first()->id;  //订单id
+                $order_details['goods_id'] = $cart->goods_id;  //商品id
+                $order_details['amount'] = $cart->amount;  //商品数量
+                $goods = Menu::where('id', $cart->goods_id)->first();
+                $order_details['goods_name'] = $goods->goods_name;  //商品名称
+                $order_details['goods_img'] = $goods->goods_img;  //商品图片
+                $order_details['goods_price'] = $goods->goods_price; //商品价格
+            }
+            $order_details->save();
+//            DB::table("carts")->delete();
+            DB::commit();
+            return [
+                "status" => "true",
+                "message" => "添加成功",
+                "order_id" => Order::select('id')->first()->id
+            ];
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return [
+                "status" => "false",
+                "message" => "添加失败",
+            ];
+        }
+    }
+
+    //获得指定订单接口
+    public function order(Request $request)
+    {
+        $id = $request->id;
+        $order = Order::select('id', 'sn as order_code', 'order_birth_time', 'status', 'shop_id', 'address')
+            ->where('id', $id)->first();
+        if ($order->status == 1) {
+            $status = "代付款";
+        }
+        $order['order_status'] = $status; //订单状态
+        //查询商家数据
+        $shop = Shop::where('id', $order->shop_id)->first();
+        $order['shop_name'] = $shop->shop_name; //商铺名字
+        $order['shop_img'] = $shop->shop_img; //商铺图片
+        //查询订单商品表
+        $order_detail = OrderDetail::where('order_id', $id)->first();
+        $order['order_price'] = $order_detail->goods_price; //订单总价
+        $order['order_address'] = $order->address; //订单收货地址
+        //获取购物车所有数据
+        $goods_list = Cart::where('user_id', Auth::user()->id)->get();
+        foreach ($goods_list as $cart) {
+            $goods = Menu::where('id', $cart->goods_id)->first();
+            $cart['goods_name'] = $goods->goods_name;
+            $cart['goods_img'] = $goods->goods_img;
+            $cart['goods_price'] = $goods->goods_price;
+        }
+        $order['goods_list'] = $goods_list;
+        return $order;
+    }
+
+    //修改密码
+    public function changePassword(Request $request)
+    {
+        $this->validate($request,
+            ['oldPassword' => 'required',
+                'newPassword' => 'required',
+            ]);
+        $oldPassword = $request->oldPassword;
+//        return auth()->user()->password;
+        if (//判断原密码是否正确
+        !Hash::check($oldPassword, auth()->user()->password)
+        ) {
+            return ["status" => "false",
+                "message" => "原密码不正确"];
+        } else {
+            //修改密码,并注销用户
+            DB::table('members')->where('id',Auth::user()->id)
+                ->update(['password'=>Hash::make($request->newPassword)]);
+//            Auth::logout();
+            return ["status" => "true",
+                "message" => "修改密码成功"];
+        }
+
+    }
+
+    //重置密码
+    public function forgetPassword(Request $request)
+    {
+        $tel = $request->tel;
+        if ($request->sms != Redis::get($tel)) {
+            return ["status" => "false", "message" => "验证码错误"];
+        }
+        Member::where('tel',$tel)->update(["password"=>Hash::make($request->password)]);
+        return ["status" => "true", "message" => "重置密码成功"];
     }
 }

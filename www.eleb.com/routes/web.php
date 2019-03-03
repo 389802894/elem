@@ -25,3 +25,12 @@ Route::post('/api/edit_address','api\BusinessController@editAddress');
 Route::post('/api/add_cart','api\BusinessController@addCart');
 //获取购物车
 Route::get('/api/cart','api\BusinessController@cart');
+//添加订单
+Route::post('/api/add_order','api\BusinessController@addOrder');
+//获得指定订单接口
+Route::get('/api/order','api\BusinessController@order');
+
+//修改密码
+Route::post('/api/changePassword','api\BusinessController@changePassword');
+//修改密码
+Route::post('/api/forgetPassword','api\BusinessController@forgetPassword');
