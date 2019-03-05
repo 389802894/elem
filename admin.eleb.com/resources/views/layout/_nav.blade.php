@@ -41,12 +41,12 @@
             <a href="{{route('activities.index')}}">-&emsp;活动列表</a>
             <a href="{{route('activities.create')}}">-&emsp;添加活动</a>
         </dd>
-        <dt><span class="icon flink"></span>套餐管理</dt>
+        <dt><span class="icon admin"></span>会员管理</dt>
         <dd>
-            <a href="index.php?p=Admin&c=Package&a=add">-&emsp;添加套餐</a>
-            <a href="index.php?p=Admin&c=Package&a=index">-&emsp;套餐列表</a>
+            <a href="{{route('members.index')}}">-&emsp;会员列表</a>
+
         </dd>
-        <dt><span class="icon admin"></span>代金券</dt>
+        <dt><span class="icon flink"></span>代金券</dt>
         <dd>
             <a href="index.php?p=Admin&c=Voucher&a=add">-&emsp;添加代金券</a>
             <a href="index.php?p=Admin&c=Voucher&a=index">-&emsp;代金券列表</a>

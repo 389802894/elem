@@ -32,3 +32,12 @@ Route::resource('menus','MenuController');
 Route::get('search','MenuCategoryController@search')->name('search');
 //平台活动
 Route::resource('activities','ActivityController');
+//订单管理资源路由
+Route::resource('orders','OrderController');
+//最近一周订单量统计
+Route::get('tongji_week','TongjiController@week')->name('tongji_week');
+//最近三个月订单量统计
+Route::get('tongji_month','TongjiController@month')->name('tongji_month');
+
+
+

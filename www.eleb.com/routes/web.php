@@ -29,7 +29,8 @@ Route::get('/api/cart','api\BusinessController@cart');
 Route::post('/api/add_order','api\BusinessController@addOrder');
 //获得指定订单接口
 Route::get('/api/order','api\BusinessController@order');
-
+//获得订单列表接口
+Route::get('/api/orderList','api\BusinessController@orderList');
 //修改密码
 Route::post('/api/changePassword','api\BusinessController@changePassword');
 //修改密码

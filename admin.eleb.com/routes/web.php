@@ -34,3 +34,5 @@ Route::get('destroy','SignInController@destroy')->name('destroy');
 Route::resource('activities','ActivityController');
 //文件上传
 Route::post('/upload','ShopCategoryController@upload')->name('upload');
+//会员管理
+Route::resource('members','MemberController');

@@ -19,7 +19,7 @@ window.api = {
   // 保存修改地址接口
   editAddress: '/api/edit_address',
   // 获得订单列表接口
-  orderList: '/orderList.php',
+  orderList: '/api/orderList',
   // 获得指定订单接口
   // order: '/order.php',
   order: '/api/order',

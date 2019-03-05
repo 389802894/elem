@@ -32,5 +32,11 @@
             <a href="{{route('menus.index')}}">-&emsp;菜品列表</a>
             <a href="{{route('menus.create')}}">-&emsp;添加菜品</a>
         </dd>
+        <dt><span class="icon board"></span>订单管理</dt>
+        <dd>
+            <a href="{{route('orders.index')}}">-&emsp;订单列表</a>
+            <a href="{{route('tongji_week')}}">-&emsp;最近一周订单统计</a>
+            <a href="{{route('tongji_month')}}">-&emsp;最三个月订单统计</a>
+        </dd>
     </dl>
 </nav>
