@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Activity;
 use Illuminate\Http\Request;
 
-//查看平台活动控制器
+//查看平台活动
 class ActivityController extends Controller
 {
     //查看活动列表
