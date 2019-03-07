@@ -38,6 +38,10 @@ Route::resource('orders','OrderController');
 Route::get('tongji_week','TongjiController@week')->name('tongji_week');
 //最近三个月订单量统计
 Route::get('tongji_month','TongjiController@month')->name('tongji_month');
+//最近一周菜品量统计
+Route::get('menu_week','TongjiController@menu_week')->name('menu_week');
+//最近三个月菜品订单量统计
+Route::get('menu_month','TongjiController@month')->name('menu_month');
 
 
 

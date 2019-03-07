@@ -46,10 +46,12 @@
             <a href="{{route('members.index')}}">-&emsp;会员列表</a>
 
         </dd>
-        <dt><span class="icon flink"></span>代金券</dt>
+        <dt><span class="icon flink"></span>RBAC</dt>
         <dd>
-            <a href="index.php?p=Admin&c=Voucher&a=add">-&emsp;添加代金券</a>
-            <a href="index.php?p=Admin&c=Voucher&a=index">-&emsp;代金券列表</a>
+            <a href="{{route('permissions.index')}}">-&emsp;权限列表</a>
+            <a href="{{route('permissions.create')}}">-&emsp;添加权限</a>
+            <a href="{{route('roles.index')}}">-&emsp;角色列表</a>
+            <a href="{{route('roles.create')}}">-&emsp;添加角色</a>
         </dd>
 
 

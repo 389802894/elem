@@ -36,3 +36,7 @@ Route::resource('activities','ActivityController');
 Route::post('/upload','ShopCategoryController@upload')->name('upload');
 //会员管理
 Route::resource('members','MemberController');
+//权限资源路由
+Route::resource('roles','RoleController');
+//角色资源路由
+Route::resource('permissions','PermissionController');

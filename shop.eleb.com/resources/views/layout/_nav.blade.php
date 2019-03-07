@@ -37,6 +37,8 @@
             <a href="{{route('orders.index')}}">-&emsp;订单列表</a>
             <a href="{{route('tongji_week')}}">-&emsp;最近一周订单统计</a>
             <a href="{{route('tongji_month')}}">-&emsp;最三个月订单统计</a>
+            <a href="{{route('menu_week')}}">-&emsp;最近一周菜品订单统计</a>
+            <a href="{{route('menu_month')}}">-&emsp;最三个月菜品订单统计</a>
         </dd>
     </dl>
 </nav>

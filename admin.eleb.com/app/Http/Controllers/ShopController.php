@@ -118,7 +118,7 @@ class ShopController extends Controller
     {
         $this->validate($request,
             ['shop_name' => 'required',
-                'shop_img' => 'image',
+//                'shop_img' => 'image',
                 'brand' => 'required',
                 'on_time' => 'required',
                 'fengniao' => 'required',
@@ -130,17 +130,18 @@ class ShopController extends Controller
                 'discount' => 'required',
             ],
             ['shop_name.required' => '店铺名称不能为空',
-                'shop_img.image' => '图片格式有错',
+//                'shop_img.image' => '图片格式有错',
                 'start_send.required' => '起送金额不能为空',
                 'send_cost.required' => '配送费不能为空',
                 'notice,required' => '公告不能为空',
                 'discount.required' => '优惠信息不能为空',
             ]);
-        $img = $request->file('shop_img');
-        if ($img) {
-            $path = $img->store('public/shop');
-            $shop->shop_img = $path;
-        }
+//        $img = $request->file('shop_img');
+//        if ($img) {
+//            $path = $img->store('public/shop');
+//            $shop->shop_img = $path;
+//        }
+        $shop->shop_img = $request->shop_img;
         $shop->shop_name = $request->shop_name;
         $shop->shop_category_id = $request->shop_category_id;
         $shop->shop_rating = 4.5;

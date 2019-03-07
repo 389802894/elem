@@ -19,6 +19,15 @@
                         <td><input type="password" name="password" class="inbox" value="{{old('password')}}"/></td>
                     </tr>
                     <tr>
+                        <td>选择角色</td>
+                        <td>
+                            @foreach($roles as $role)
+                                <label><input type="checkbox" name="role[]"
+                                              value="{{$role->name}}"/>{{$role->name}}</label>
+                            @endforeach
+                        </td>
+                    </tr>
+                    <tr>
                         <td></td>
                         <td><input type="submit" value="提交"/></td>
                     </tr>

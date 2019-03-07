@@ -15,6 +15,18 @@
                         <td><input type="text" name="email" class="inbox" value="{{$admin->email}}"/></td>
                     </tr>
                     <tr>
+                        <td>选择角色</td>
+                        <td>
+                            @foreach($roles as $role)
+                                <label><input type="checkbox" name="role[]"
+                                              @if($admin->hasRole($role->name))
+                                              checked
+                                              @endif
+                                              value="{{$role->name}}"/>{{$role->name}}</label>
+                            @endforeach
+                        </td>
+                    </tr>
+                    <tr>
                         <td></td>
                         <td><input type="submit" value="修改"/></td>
                     </tr>

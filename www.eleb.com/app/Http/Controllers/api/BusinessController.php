@@ -299,7 +299,7 @@ class BusinessController extends Controller
     public function order(Request $request)
     {
         $id = $request->id;
-        $order = Order::select('id', 'sn as order_code', 'order_birth_time', 'status', 'shop_id', 'address')
+        $order = Order::select('id', 'sn as order_code', 'order_birth_time', 'status', 'shop_id', 'address','total')
             ->where('id', $id)->first();
         //设置发货状态
         switch ($order->status) {
@@ -326,7 +326,7 @@ class BusinessController extends Controller
         $order['shop_img'] = $shop->shop_img; //商铺图片
         //查询订单商品表
         $order_detail = OrderDetail::where('order_id', $id)->first();
-        $order['order_price'] = $order_detail->goods_price; //订单总价
+        $order['order_price'] = $order->total; //订单总价
         $order['order_address'] = $order->address; //订单收货地址
         //获取购物车所有数据
         $goods_list = Cart::where('user_id', Auth::user()->id)->get();
@@ -346,45 +346,48 @@ class BusinessController extends Controller
     public function orderList()
     {
         $id = Auth::user()->id;
-        $order = Order::select('id', 'sn as order_code', 'order_birth_time', 'status', 'shop_id', 'address')
-            ->where('user_id', $id)->first();
-        //设置发货状态
-        switch ($order->status) {
-            case -1:
-                $status = "已取消";
-                break;
-            case 0:
-                $status = "待支付";
-                break;
-            case 1:
-                $status = "待发货";
-                break;
-            case 2:
-                $status = "待确认";
-                break;
-            case 3:
-                $status = "完成";
-                break;
+        $orders = Order::select('id', 'sn as order_code', 'order_birth_time', 'status', 'shop_id', 'address','total')
+            ->where('user_id', $id)->get();
+        foreach ($orders as $order){
+            //设置发货状态
+            switch ($order->status) {
+                case -1:
+                    $status = "已取消";
+                    break;
+                case 0:
+                    $status = "待支付";
+                    break;
+                case 1:
+                    $status = "待发货";
+                    break;
+                case 2:
+                    $status = "待确认";
+                    break;
+                case 3:
+                    $status = "完成";
+                    break;
+            }
+            $order['order_status'] = $status; //订单状态
+            //查询商家数据
+            $shop = Shop::where('id', $order->shop_id)->first();
+            $order['shop_name'] = $shop->shop_name; //商铺名字
+            $order['shop_img'] = $shop->shop_img; //商铺图片
+            //查询订单商品表
+            $order_detail = OrderDetail::where('order_id', $order->id)->first();
+            $order['order_price'] = $order->total; //订单总价
+            $order['order_address'] = $order->address; //订单收货地址
+            //获取购物车所有数据
+            $goods_list = Cart::where('user_id', Auth::user()->id)->get();
+            foreach ($goods_list as $cart) {
+                $goods = Menu::where('id', $cart->goods_id)->first();
+                $cart['goods_name'] = $goods->goods_name;
+                $cart['goods_img'] = $goods->goods_img;
+                $cart['goods_price'] = $goods->goods_price;
+            }
+            $order['goods_list'] = $goods_list;
+//            return $order;
         }
-        $order['order_status'] = $status; //订单状态
-        //查询商家数据
-        $shop = Shop::where('id', $order->shop_id)->first();
-        $order['shop_name'] = $shop->shop_name; //商铺名字
-        $order['shop_img'] = $shop->shop_img; //商铺图片
-        //查询订单商品表
-        $order_detail = OrderDetail::where('order_id', $order->id)->first();
-        $order['order_price'] = $order_detail->goods_price; //订单总价
-        $order['order_address'] = $order->address; //订单收货地址
-        //获取购物车所有数据
-        $goods_list = Cart::where('user_id', Auth::user()->id)->get();
-        foreach ($goods_list as $cart) {
-            $goods = Menu::where('id', $cart->goods_id)->first();
-            $cart['goods_name'] = $goods->goods_name;
-            $cart['goods_img'] = $goods->goods_img;
-            $cart['goods_price'] = $goods->goods_price;
-        }
-        $order['goods_list'] = $goods_list;
-        return $order;
+        return $orders;
 
     }
 
