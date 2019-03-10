@@ -15,7 +15,7 @@
     @endguest
     @auth
     <p style="margin-top: 20px; padding-left: 20px;">管理员:<strong>{{ auth()->user()->name }}</strong></p>
-    @endauth
+
     <dl>
         <dt><span class="icon board"></span>商家</dt>
         <dd>
@@ -45,4 +45,5 @@
             <a href="{{route('events.index')}}">-&emsp;抽奖活动查看</a>
         </dd>
     </dl>
+    @endauth
 </nav>
