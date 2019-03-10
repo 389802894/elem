@@ -1,7 +1,7 @@
 <?php
 
 Route::get('/', function () {
-    return view('index');
+    return view('index.html');
 });
 //商家列表
 Route::get('/api/business_list','api\BusinessController@businessList');
