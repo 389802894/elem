@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('layout.app');
 });
 //商家资源路由
 Route::resource('shopUsers','ShopUserController');
