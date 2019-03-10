@@ -39,7 +39,12 @@
                             @if($shop->status==1)
                                 正常
                                 @elseif($shop->status==0)
-                                <a href="">待审核</a>
+                                <form style="display: inline" method="post" action="{{route('mails.destroy',[$shop])}}">
+                                    <button type="submit" class="btn btn-danger"  >待审核</button>
+                                    {{csrf_field()}}
+                                    {{method_field('delete')}}
+                                </form>
+                                {{--<a href="{{route('mails',[$shop])}}">待审核</a>--}}
                             @elseif($shop->status==-1)
                                 禁用
                                 @endif

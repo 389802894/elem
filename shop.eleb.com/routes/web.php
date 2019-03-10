@@ -42,6 +42,7 @@ Route::get('tongji_month','TongjiController@month')->name('tongji_month');
 Route::get('menu_week','TongjiController@menu_week')->name('menu_week');
 //最近三个月菜品订单量统计
 Route::get('menu_month','TongjiController@month')->name('menu_month');
-
+//抽奖活动资源路由
+Route::resource('events','EventController');
 
 

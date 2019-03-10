@@ -103,7 +103,6 @@ class ShopController extends Controller
         }
 
 
-
         return redirect()->route('shops.index')->with('success', '添加商家成功');
     }
 
@@ -184,13 +183,13 @@ class ShopController extends Controller
         }
         return redirect()->route('shops.index')->with('success', '密码重置成功为888888');
     }
+
     //接受文件上传
     public function upload(Request $request)
     {
         $img = $request->file('file');
         $path = Storage::url($img->store('public/shop'));
-        return ['path'=>$path];
+        return ['path' => $path];
     }
-
 
 }

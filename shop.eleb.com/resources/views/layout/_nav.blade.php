@@ -40,5 +40,9 @@
             <a href="{{route('menu_week')}}">-&emsp;最近一周菜品订单统计</a>
             <a href="{{route('menu_month')}}">-&emsp;最三个月菜品订单统计</a>
         </dd>
+        <dt><span class="icon board"></span>抽奖活动</dt>
+        <dd>
+            <a href="{{route('events.index')}}">-&emsp;抽奖活动查看</a>
+        </dd>
     </dl>
 </nav>
