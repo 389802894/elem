@@ -14,7 +14,7 @@
     @endguest
     @auth
     <p style="margin-top: 20px; padding-left: 20px;">管理员:<strong>{{ auth()->user()->name }}</strong></p>
-    @endauth
+
     <dl>
         <dt><span class="icon board"></span>导航菜单管理</dt>
         <dd>
@@ -31,6 +31,7 @@
                 @endforeach
             </dd>
         @endforeach
+        @endauth
         {{--<dt><span class="icon board"></span>管理员管理</dt>--}}
         {{--<dd>--}}
         {{--<a href="{{route('admins.create')}}">-&emsp;添加管理员</a>--}}
